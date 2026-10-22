@@ -82,6 +82,16 @@ app.get("/api/cartas", (req, res) => {
 
 });
  
+app.get("/api/cartas/aleatoria", (req, res) => {
+
+  res.set("Access-Control-Allow-Origin", "http://localhost:5173");
+ 
+  const card = cards[Math.floor(Math.random() * cards.length)];
+ 
+  res.json(card);
+
+});
+ 
 
 app.use((req, res) => {
   res.set("Access-Control-Allow-Origin", "http://localhost:5173");

@@ -52,10 +52,22 @@ if (error) {
     visible = [...visible].sort((a, b) => b.attack - a.attack);
   }
  
-  function pickRandom() {
-    if (cards.length === 0) return;
-    setRandomCard(cards[Math.floor(Math.random() * cards.length)]);
-  }
+function pickRandom() {
+  fetch("http://localhost:3000/api/cartas/aleatoria")
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+ 
+      return res.json();
+    })
+    .then((data) => {
+      setRandomCard(data);
+    })
+    .catch((err) => {
+      console.error("Erro ao obter carta aleatória:", err);
+    });
+}
  
   return (
 <main>
