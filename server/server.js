@@ -77,10 +77,19 @@ app.get("/agora", (req, res) => {
 app.get("/api/cartas", (req, res) => {
 
   res.set("Access-Control-Allow-Origin", "http://localhost:5173");
+ 
+  const tipo = req.query.tipo;
+ 
+  const resultado = tipo
 
-  res.json(cards);
+    ? cards.filter((card) => card.type === tipo)
+
+    : cards;
+ 
+  res.json(resultado);
 
 });
+ 
  
 app.get("/api/cartas/aleatoria", (req, res) => {
 

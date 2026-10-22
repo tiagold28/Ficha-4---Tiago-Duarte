@@ -11,16 +11,23 @@ function App() {
   const [error, setError] = useState("");
  
 useEffect(() => {
-  fetch("http://localhost:3000/api/cartas")
+  setLoading(true);
+  setError("");
+
+  const url = filter === "Todas"
+    ? "http://localhost:3000/api/cartas"
+    : `http://localhost:3000/api/cartas?tipo=${encodeURIComponent(filter)}`;
+
+  fetch(url)
     .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}`);
       }
+
       return res.json();
     })
     .then((data) => {
       setCards(data);
-      setError("");
     })
     .catch((err) => {
       setError(err.message);
@@ -28,7 +35,7 @@ useEffect(() => {
     .finally(() => {
       setLoading(false);
     });
-}, []);
+}, [filter]);
  
 
 if (loading) {
@@ -43,11 +50,10 @@ if (error) {
 
 }
  
+let visible = cards.filter((card) =>
+  card.name.toLowerCase().includes(search.toLowerCase())
+);
 
-  let visible = cards
-    .filter((card) => filter === "Todas" || card.type === filter)
-    .filter((card) => card.name.toLowerCase().includes(search.toLowerCase()));
- 
   if (sorted) {
     visible = [...visible].sort((a, b) => b.attack - a.attack);
   }
