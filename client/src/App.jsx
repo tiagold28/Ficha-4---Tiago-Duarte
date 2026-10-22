@@ -7,13 +7,19 @@ function App() {
   const [search, setSearch] = useState("");
   const [randomCard, setRandomCard] = useState(null);
   const [sorted, setSorted] = useState(false);
+  const [loading, setLoading] = useState(true);
  
-  useEffect(() => {
-    fetch("http://localhost:3000/api/cartas")
-      .then((res) => res.json())
-      .then((data) => setCards(data));
-  }, []);
- 
+useEffect(() => {
+  fetch("http://localhost:3000/api/cartas")
+    .then((res) => res.json())
+    .then((data) => setCards(data))
+    .finally(() => setLoading(false));
+}, []); 
+
+if (loading) {
+  return <p>A carregar...</p>;
+}
+
   let visible = cards
     .filter((card) => filter === "Todas" || card.type === filter)
     .filter((card) => card.name.toLowerCase().includes(search.toLowerCase()));
