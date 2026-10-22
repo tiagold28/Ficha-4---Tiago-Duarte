@@ -89,3 +89,4 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Server a correr em http://localhost:${PORT}`);
 });
+ 
