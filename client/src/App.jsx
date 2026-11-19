@@ -9,6 +9,57 @@ function App() {
   const [sorted, setSorted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [name, setName] = useState("");
+  const [type, setType] = useState("Criatura");
+  const [attack, setAttack] = useState("");
+
+  function handleSubmit(e) {
+  e.preventDefault();
+
+  const card = {
+    name: name,
+    type: type,
+    attack: Number(attack),
+    defense: 0
+  };
+
+  setCards([...cards, card]);
+
+  setName("");
+  setType("Criatura");
+  setAttack("");
+
+  <form onSubmit={handleSubmit}>
+
+  <input
+    type="text"
+    placeholder="Nome da carta"
+    value={name}
+    onChange={(e) => setName(e.target.value)}
+  />
+
+  <select
+    value={type}
+    onChange={(e) => setType(e.target.value)}
+  >
+    <option value="Criatura">Criatura</option>
+    <option value="Feitiço">Feitiço</option>
+  </select>
+
+  <input
+    type="number"
+    placeholder="Ataque"
+    value={attack}
+    onChange={(e) => setAttack(e.target.value)}
+  />
+
+  <button type="submit">
+    Adicionar carta
+  </button>
+
+</form>
+
+}
  
 useEffect(() => {
   setLoading(true);
