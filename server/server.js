@@ -94,8 +94,14 @@ app.post("/api/cartas", (req, res) => {
 
   const { name, type, attack } = req.body;
 
+  if (!name || !name.trim() || !type) {
+    return res.status(400).json({
+      error: "Nome e tipo são obrigatórios"
+    });
+  }
+
   const card = {
-    name,
+    name: name.trim(),
     type,
     attack: Number(attack),
     defense: 0

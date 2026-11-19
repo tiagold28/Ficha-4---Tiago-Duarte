@@ -12,9 +12,46 @@ function App() {
   const [name, setName] = useState("");
   const [type, setType] = useState("Criatura");
   const [attack, setAttack] = useState("");
+  const [error, setError] = useState("");
 
   function handleSubmit(e) {
   e.preventDefault();
+
+  async function handleSubmit(e) {
+  e.preventDefault();
+
+  setError("");
+
+  try {
+    const response = await fetch("http://localhost:3000/api/cartas", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name,
+        type,
+        attack: Number(attack)
+      })
+    });
+
+    if (!response.ok) {
+      setError(`HTTP ${response.status}`);
+      return;
+    }
+
+    const card = await response.json();
+
+    setCards([...cards, card]);
+
+    setName("");
+    setType("Criatura");
+    setAttack("");
+
+  } catch (err) {
+    setError("Erro ao comunicar com o servidor");
+  }
+}
 
   const card = {
     name: name,
@@ -58,6 +95,8 @@ function App() {
   </button>
 
 </form>
+
+{error && <p>{error}</p>}
 
 }
  
