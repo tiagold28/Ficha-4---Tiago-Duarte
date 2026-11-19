@@ -81,8 +81,6 @@ app.get("/agora", (req, res) => {
 });
 
 app.get("/api/cartas", (req, res) => {
-
-  res.set("Access-Control-Allow-Origin", "http://localhost:5173");
  
   const tipo = req.query.tipo;
  
@@ -94,12 +92,29 @@ app.get("/api/cartas", (req, res) => {
  
   res.json(resultado);
 
+  app.post("/api/cartas", (req, res) => {
+
+  const { name, type, attack } = req.body;
+
+  const card = {
+    name,
+    type,
+    attack: Number(attack),
+    defense: 0
+  };
+
+  cards.push(card);
+
+  res.status(201).json(card);
+
+});
+
 });
  
  
 app.get("/api/cartas/aleatoria", (req, res) => {
 
-  res.set("Access-Control-Allow-Origin", "http://localhost:5173");
+  
  
   const card = cards[Math.floor(Math.random() * cards.length)];
  
@@ -109,7 +124,6 @@ app.get("/api/cartas/aleatoria", (req, res) => {
  
 
 app.use((req, res) => {
-  res.set("Access-Control-Allow-Origin", "http://localhost:5173");
  
   res.status(404).send(page(
     "404 — não encontrado",
